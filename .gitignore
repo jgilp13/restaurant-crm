@@ -1,0 +1,17 @@
+/vendor/
+/node_modules/
+/storage/
+/storage/logs/
+/composer.lock
+
+.env
+.env.*
+!.env.example
+
+# IDE
+/.vscode/
+/.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db

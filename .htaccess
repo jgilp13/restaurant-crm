@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /restaurant-crm/
+    
+    # No rewrite para archivos y carpetas reales
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Redirige todo a public/index.php
+    RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
+</IfModule>

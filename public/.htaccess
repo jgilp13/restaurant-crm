@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # No reescribir archivos existentes
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # No reescribir directorios existentes
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Reescribir todas las solicitudes a index.php
+    RewriteRule ^(.*)$ index.php [L]
+</IfModule>
