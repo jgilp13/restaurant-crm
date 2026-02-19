@@ -40,12 +40,22 @@ class DB
     {
         try {
             $host = self::$config['DB_HOST'] ?? getenv('DB_HOST') ?: 'localhost';
+            $port = self::$config['DB_PORT'] ?? getenv('DB_PORT') ?: '3306';
             $db = self::$config['DB_NAME'] ?? getenv('DB_NAME') ?: 'restaurant_crm';
             $user = self::$config['DB_USER'] ?? getenv('DB_USER') ?: 'root';
             $pass = self::$config['DB_PASS'] ?? getenv('DB_PASS') ?: '';
             $charset = 'utf8mb4';
 
-            $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+            // Soporte para host:port en una sola variable (Render.com)
+            if (strpos($host, ':') !== false) {
+                list($host, $port) = explode(':', $host);
+            }
+
+            // Construir DSN con soporte para TCP/IP
+            // Usar "localhost" sin puerto para socket Unix, usar host:port para TCP
+            $dsn = ($port !== '3306' || (string)$host !== 'localhost') 
+                ? "mysql:host=$host;port=$port;dbname=$db;charset=$charset"
+                : "mysql:host=$host;dbname=$db;charset=$charset";
 
             self::$connection = new PDO($dsn, $user, $pass, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
