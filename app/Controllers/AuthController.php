@@ -83,6 +83,8 @@ class AuthController extends Controller
      */
     public function logout(): void
     {
+        Csrf::clear();
+        
         $auth = new Auth();
         $auth->logout();
 

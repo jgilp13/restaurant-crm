@@ -21,6 +21,14 @@ class Router
      */
     private function registerDefaultRoutes(): void
     {
+        // Debug & Test (remover en producción)
+        if (getenv('APP_DEBUG') || !defined('APP_ENV') || APP_ENV !== 'production') {
+            $this->get('/debug/csrf', 'DebugController@csrf');
+            $this->post('/debug/csrf', 'DebugController@csrf');
+            $this->get('/test/session', 'TestController@session');
+            $this->get('/test/session-check', 'TestController@sessionCheck');
+        }
+
         // Auth
         $this->get('/', 'AuthController@index');
         $this->get('/login', 'AuthController@index');
