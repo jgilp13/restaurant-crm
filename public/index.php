@@ -55,8 +55,9 @@ if (file_exists($envFile)) {
 // Autoloader simple
 spl_autoload_register(function ($class) {
     $parts = explode('\\', $class);
-    $file = ROOT_PATH . '/' . str_replace('\\', '/', $parts[0]) . '/' . 
-            implode('/', array_slice($parts, 1)) . '.php';
+    // Convertir la primera parte a minúsculas para que coincida con la carpeta 'app'
+    $parts[0] = strtolower($parts[0]);
+    $file = ROOT_PATH . '/' . implode('/', $parts) . '.php';
     
     if (file_exists($file)) {
         require $file;
