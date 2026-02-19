@@ -212,6 +212,21 @@ class Lead
     }
 
     /**
+     * Contar leads por estado
+     */
+    public static function getCountByStatus(): array
+    {
+        $result = DB::fetchAll(
+            "SELECT status, COUNT(*) as count FROM " . self::$table . " GROUP BY status"
+        );
+        $counts = [];
+        foreach ($result as $row) {
+            $counts[$row['status']] = (int) $row['count'];
+        }
+        return $counts;
+    }
+
+    /**
      * Últimos leads
      */
     public static function latest(int $limit = 5): array

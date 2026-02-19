@@ -29,6 +29,17 @@ define('BASE_URL', $protocol . '://' . $host . $basePath . '/');
 // Zona horaria
 date_default_timezone_set('America/Mexico_City');
 
+// Configuración de sesión segura
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => $isHttps,
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
 // Iniciar sesión
 session_start();
 

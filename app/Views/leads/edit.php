@@ -1,7 +1,7 @@
 <div class="row mb-4">
     <div class="col-md-12">
         <h1>
-            <i class="fas fa-edit"></i> Editar Lead
+            <i class="bi bi-pencil"></i> Editar Lead
         </h1>
     </div>
 </div>
@@ -10,7 +10,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <i class="fas fa-form"></i> Formulario
+                <i class="bi bi-pencil-square"></i> Formulario
             </div>
             <div class="card-body">
                 <div id="updateError" class="alert alert-danger d-none" role="alert"></div>
@@ -112,10 +112,10 @@
 
                     <div class="d-flex gap-2">
                         <button type="button" class="btn btn-primary btn-lg" onclick="submitEditLead()">
-                            <i class="fas fa-save"></i> Guardar Cambios
+                            <i class="bi bi-check-lg"></i> Guardar Cambios
                         </button>
                         <a href="<?= \App\Core\View::url('/leads') ?>" class="btn btn-secondary btn-lg">
-                            <i class="fas fa-arrow-left"></i> Cancelar
+                            <i class="bi bi-arrow-left"></i> Cancelar
                         </a>
                     </div>
                 </form>

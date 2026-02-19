@@ -39,10 +39,10 @@ class DB
     private static function connect(): void
     {
         try {
-            $host = self::$config['DB_HOST'] ?? 'localhost';
-            $db = self::$config['DB_NAME'] ?? 'restaurant_crm';
-            $user = self::$config['DB_USER'] ?? 'root';
-            $pass = self::$config['DB_PASS'] ?? '';
+            $host = self::$config['DB_HOST'] ?? getenv('DB_HOST') ?: 'localhost';
+            $db = self::$config['DB_NAME'] ?? getenv('DB_NAME') ?: 'restaurant_crm';
+            $user = self::$config['DB_USER'] ?? getenv('DB_USER') ?: 'root';
+            $pass = self::$config['DB_PASS'] ?? getenv('DB_PASS') ?: '';
             $charset = 'utf8mb4';
 
             $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

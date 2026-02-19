@@ -1,7 +1,7 @@
 <div class="row mb-4">
     <div class="col-md-12">
         <h1>
-            <i class="fas fa-plus"></i> Nuevo Platillo
+            <i class="bi bi-plus-lg"></i> Nuevo Platillo
             <small class="text-muted"><?= \App\Core\View::escape($restaurant['name']) ?></small>
         </h1>
     </div>
@@ -11,7 +11,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <i class="fas fa-form"></i> Formulario
+                <i class="bi bi-pencil-square"></i> Formulario
             </div>
             <div class="card-body">
                 <?php 
@@ -87,10 +87,10 @@
 
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-save"></i> Guardar
+                            <i class="bi bi-check-lg"></i> Guardar
                         </button>
                         <a href="<?= \App\Core\View::url('/menu/' . $restaurant['id']) ?>" class="btn btn-secondary btn-lg">
-                            <i class="fas fa-arrow-left"></i> Cancelar
+                            <i class="bi bi-arrow-left"></i> Cancelar
                         </a>
                     </div>
                 </form>

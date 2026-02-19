@@ -1,0 +1,3 @@
+[build]
+  command = "node landing/build.js"
+  publish = "landing"

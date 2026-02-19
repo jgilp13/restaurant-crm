@@ -22,6 +22,7 @@ class DashboardController extends Controller
         // Últimos registros
         $latestRestaurants = Restaurant::latest(5);
         $latestLeads = Lead::latest(5);
+        $leadsByStatus = Lead::getCountByStatus();
 
         $flash = $_SESSION['flash'] ?? null;
         unset($_SESSION['flash']);
@@ -32,6 +33,7 @@ class DashboardController extends Controller
             'menuItemCount' => $menuItemCount,
             'latestRestaurants' => $latestRestaurants,
             'latestLeads' => $latestLeads,
+            'leadsByStatus' => $leadsByStatus,
             'flash' => $flash
         ]);
     }

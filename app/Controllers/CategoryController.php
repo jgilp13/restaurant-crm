@@ -19,7 +19,9 @@ class CategoryController extends Controller
         $restaurant = Restaurant::findById((int)$restaurantId);
 
         if (!$restaurant) {
-            $this->json(['error' => 'Restaurante no encontrado'], 404);
+            $this->setFlash('error', 'Restaurante no encontrado');
+            header('Location: ' . \App\Core\View::url('/restaurants'));
+            exit;
         }
 
         $categories = Category::getByRestaurant((int)$restaurantId);

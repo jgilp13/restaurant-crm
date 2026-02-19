@@ -18,6 +18,7 @@ class Auth
     {
         // Validación básica (en producción buscar en BD)
         if ($email === self::ADMIN_EMAIL && $password === self::ADMIN_PASSWORD) {
+            session_regenerate_id(true);
             $_SESSION[self::SESSION_KEY] = 1;
             $_SESSION['user_email'] = $email;
             $_SESSION['user_role'] = 'admin';

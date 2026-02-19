@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Restaurant CRM - Sistema de gestión integral para restaurantes. Controla tu menú, leads comerciales y administra tu negocio desde un solo lugar.">
+    <title>Restaurant CRM | Gestión integral para restaurantes</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts - Fuente distintiva -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #ed8936;
+            --accent-hover: #dd6b20;
+            --dark: #2d3748;
+            --gray: #718096;
+            --light: #f7fafc;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            padding: 0.75rem 0;
+        }
+
+        .navbar-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary) !important;
+        }
+
+        .navbar-brand i {
+            color: var(--accent);
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark) !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary) !important;
+            background: rgba(26, 54, 93, 0.06);
+        }
+
+        .btn-demo {
+            background: var(--accent);
+            color: white !important;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-demo:hover {
+            background: var(--accent-hover);
+            color: white !important;
+            transform: translateY(-1px);
+        }
+
+        /* ========== HERO SECTION ========== */
+        #hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 50%, #e2e8f0 100%);
+            position: relative;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(ellipse at 70% 50%, rgba(237, 137, 54, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            line-height: 1.15;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 540px;
+            line-height: 1.6;
+        }
+
+        .btn-primary-custom {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.75rem;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary-custom:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(26, 54, 93, 0.25);
+        }
+
+        .btn-outline-custom {
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 0.75rem 1.75rem;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline-custom:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .hero-mockup {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0,0,0,0.04);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .mockup-placeholder {
+            background: linear-gradient(145deg, #2c5282 0%, #1a365d 100%);
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .mockup-placeholder i {
+            font-size: 5rem;
+            opacity: 0.5;
+        }
+
+        /* ========== SECTION STYLING ========== */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* ========== FUNCIONALIDADES ========== */
+        #funcionalidades {
+            background: white;
+        }
+
+        .feature-card {
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 16px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px -15px rgba(237, 137, 54, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card h5 {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ========== POR QUÉ ES IMPORTANTE ========== */
+        #porque {
+            background: linear-gradient(180deg, #f7fafc 0%, #edf2f7 100%);
+        }
+
+        .importance-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
+        }
+
+        .importance-item:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .importance-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            background: linear-gradient(135deg, var(--accent) 0%, #dd6b20 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        /* ========== BENEFICIOS ========== */
+        .benefit-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.06);
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 15px 35px -10px rgba(26, 54, 93, 0.15);
+        }
+
+        .benefit-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.25rem;
+            background: rgba(26, 54, 93, 0.08);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.75rem;
+        }
+
+        /* ========== CÓMO FUNCIONA EL SISTEMA ========== */
+        #sistema {
+            background: linear-gradient(180deg, #edf2f7 0%, #e2e8f0 100%);
+        }
+
+        /* ========== CTA FINAL ========== */
+        #cta-final {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        #cta-final h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        #cta-final p {
+            font-size: 1.15rem;
+            opacity: 0.95;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn-cta-final {
+            background: var(--accent);
+            color: white;
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cta-final:hover {
+            background: var(--accent-hover);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: #1a202c;
+            color: rgba(255,255,255,0.8);
+            padding: 3rem 0 2rem;
+        }
+
+        footer h6 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        /* ========== ANIMACIONES ========== */
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         NAVBAR
+         ============================================ -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#hero">
+                <i class="bi bi-egg-fried"></i> Restaurant CRM
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+                    <li class="nav-item"><a class="nav-link" href="#hero">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#funcionalidades">Funcionalidades</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#beneficios">Beneficios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#sistema">El sistema</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-demo" href="login">Demo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         HERO SECTION (Inicio)
+         ============================================ -->
+    <section id="hero" class="pt-5">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 fade-in">
+                    <h1 class="hero-title mb-4">
+                        Gestiona tu restaurante como nunca antes
+                    </h1>
+                    <p class="hero-subtitle mb-4">
+                        Todo en un solo lugar: menús, leads comerciales y métricas de negocio. 
+                        Deja atrás las hojas de cálculo y da el salto a la profesionalización.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="login" class="btn btn-primary-custom">Probar demo gratuita</a>
+                        <a href="#funcionalidades" class="btn btn-outline-custom">Ver cómo funciona</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 fade-in">
+                    <div class="hero-mockup">
+                        <div class="mockup-placeholder">
+                            <i class="bi bi-grid-3x3-gap-fill"></i>
+                            <span class="visually-hidden">Dashboard CRM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FUNCIONALIDADES
+         ============================================ -->
+    <section id="funcionalidades">
+        <div class="container">
+            <h2 class="section-title text-center">Todo lo que necesitas para operar</h2>
+            <p class="section-subtitle text-center">
+                Un sistema pensado para restaurantes que buscan escalar sin complicaciones.
+            </p>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-shop"></i></div>
+                        <h5>Gestión de restaurantes</h5>
+                        <p>Administra múltiples locales desde una única interfaz. Datos, contactos y configuración centralizada.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-journal-text"></i></div>
+                        <h5>Gestión de menú</h5>
+                        <p>Categorías, platos, precios y descripciones. Actualiza tu carta en segundos y mantén todo organizado.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-people"></i></div>
+                        <h5>Gestión de leads</h5>
+                        <p>Captura, clasifica y da seguimiento a tus oportunidades comerciales. Nunca pierdas un cliente potencial.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-bar-chart-line"></i></div>
+                        <h5>Dashboard inteligente</h5>
+                        <p>Métricas clave en tiempo real. Visualiza el estado de tu negocio de un vistazo y toma mejores decisiones.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+                        <h5>Seguridad y validaciones</h5>
+                        <p>Autenticación robusta, protección CSRF y validación de datos. Tu información protegida.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-lightning-charge"></i></div>
+                        <h5>CRUD con modales</h5>
+                        <p>Interfaz ágil con formularios modales. Crear, editar y eliminar sin recargar la página.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         ¿POR QUÉ ES IMPORTANTE?
+         ============================================ -->
+    <section id="porque">
+        <div class="container">
+            <h2 class="section-title text-center">¿Por qué es importante?</h2>
+            <p class="section-subtitle text-center">
+                Los restaurantes que digitalizan su operación crecen más rápido y cometen menos errores.
+            </p>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-puzzle"></i></div>
+                        <div>
+                            <h5 class="mb-2">Resuelve el caos operativo</h5>
+                            <p class="mb-0">Hojas de Excel dispersas, WhatsApp lleno de solicitudes, menús desactualizados. Restaurant CRM unifica todo en una solución clara y accesible.</p>
+                        </div>
+                    </div>
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-database"></i></div>
+                        <div>
+                            <h5 class="mb-2">Organización de datos</h5>
+                            <p class="mb-0">Restaurantes, categorías, platos y leads en una base de datos estructurada. Encuentra lo que necesitas cuando lo necesitas.</p>
+                        </div>
+                    </div>
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                        <div>
+                            <h5 class="mb-2">Control comercial</h5>
+                            <p class="mb-0">Seguimiento de prospectos, etapas de venta y conversiones. No vuelvas a perder una oportunidad por falta de seguimiento.</p>
+                        </div>
+                    </div>
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-rocket-takeoff"></i></div>
+                        <div>
+                            <h5 class="mb-2">Escalabilidad</h5>
+                            <p class="mb-0">Diseñado para crecer contigo. Un local o varios: la estructura soporta la expansión sin replantear todo el sistema.</p>
+                        </div>
+                    </div>
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-award"></i></div>
+                        <div>
+                            <h5 class="mb-2">Profesionalización del negocio</h5>
+                            <p class="mb-0">Proyecta una imagen seria ante clientes y socios. La herramienta adecuada habla bien de tu operación.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         BENEFICIOS
+         ============================================ -->
+    <section id="beneficios">
+        <div class="container">
+            <h2 class="section-title text-center">Beneficios concretos</h2>
+            <p class="section-subtitle text-center">
+                Lo que ganas al adoptar Restaurant CRM en tu día a día.
+            </p>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="bi bi-clock-history"></i></div>
+                        <h5>Ahorro de tiempo</h5>
+                        <p>Menos búsquedas, menos duplicados, menos tareas repetitivas. Automatiza lo mecánico.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="bi bi-folder2-open"></i></div>
+                        <h5>Centralización</h5>
+                        <p>Un solo punto de acceso para menús, contactos y métricas. Sin información dispersa.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="bi bi-person-check"></i></div>
+                        <h5>Mejor seguimiento</h5>
+                        <p>Recordatorios, historial y estado de cada lead. Nunca dejes un cliente en el aire.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="bi bi-pie-chart"></i></div>
+                        <h5>Decisiones con datos</h5>
+                        <p>Dashboards que muestran qué funciona. Basa tus estrategias en información real.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CÓMO FUNCIONA EL SISTEMA
+         ============================================ -->
+    <section id="sistema">
+        <div class="container">
+            <h2 class="section-title text-center">Cómo funciona el sistema</h2>
+            <p class="section-subtitle text-center">
+                Restaurant CRM organiza tu operación en módulos conectados para que todo fluya en un solo lugar.
+            </p>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-building"></i></div>
+                        <div>
+                            <h5 class="mb-2">Restaurantes como base</h5>
+                            <p class="mb-0">Cada local se registra con sus datos de contacto, dirección y descripción. Desde ahí gestionas su menú y sus leads asociados.</p>
+                        </div>
+                    </div>
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-journal-text"></i></div>
+                        <div>
+                            <h5 class="mb-2">Menú por categorías</h5>
+                            <p class="mb-0">Cada restaurante tiene categorías (Entradas, Platos fuertes, Postres) y dentro de cada una los items con nombre, descripción y precio.</p>
+                        </div>
+                    </div>
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-people"></i></div>
+                        <div>
+                            <h5 class="mb-2">Leads vinculados al restaurante</h5>
+                            <p class="mb-0">Cada prospecto se asocia a un restaurante, con estados (Nuevo, Contactado, Interesado, Negociando, Cerrado, Rechazado) para seguimiento.</p>
+                        </div>
+                    </div>
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-speedometer2"></i></div>
+                        <div>
+                            <h5 class="mb-2">Dashboard de métricas</h5>
+                            <p class="mb-0">Resumen de restaurantes, leads, platillos y categorías. Acceso rápido a los últimos registros para tomar decisiones.</p>
+                        </div>
+                    </div>
+                    <div class="importance-item">
+                        <div class="importance-icon"><i class="bi bi-shield-check"></i></div>
+                        <div>
+                            <h5 class="mb-2">Seguridad y datos</h5>
+                            <p class="mb-0">Autenticación de acceso, protección CSRF en formularios y validaciones para garantizar la integridad de la información.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CTA FINAL
+         ============================================ -->
+    <section id="cta-final">
+        <div class="container">
+            <h2>¿Listo para dar el siguiente paso?</h2>
+            <p>
+                Descubre cómo Restaurant CRM puede transformar la forma en que gestionas tu negocio.
+            </p>
+            <a href="login" class="btn btn-cta-final">Solicitar Demo</a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer id="contacto">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <h6><i class="bi bi-egg-fried me-2"></i>Restaurant CRM</h6>
+                    <p class="small mb-0">
+                        Sistema de gestión integral para restaurantes. Menús, leads y control en un solo lugar.
+                    </p>
+                </div>
+                <div class="col-md-2">
+                    <h6>Enlaces</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#hero">Inicio</a></li>
+                        <li><a href="#funcionalidades">Funcionalidades</a></li>
+                        <li><a href="#porque">Beneficios</a></li>
+                        <li><a href="#sistema">El sistema</a></li>
+                        <li><a href="login">Demo</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Tecnologías</h6>
+                    <p class="small mb-0">PHP · MySQL · Bootstrap 5 · MVC</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Contacto</h6>
+                    <p class="small mb-0">
+                        Para consultas comerciales o soporte técnico, utiliza el formulario de contacto o el enlace de Demo.
+                    </p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+            <div class="text-center small pt-3">
+                <p class="mb-0">&copy; 2026 Restaurant CRM. Reservados todos los derechos.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Cerrar navbar al hacer click en un link (mobile) -->
+    <script>
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const nav = bootstrap.Collapse.getInstance(document.getElementById('navbarMain'));
+                if (nav) nav.hide();
+            });
+        });
+    </script>
+
+<!--
+====================================================
+RECOMENDACIONES PARA VERSIÓN MÁS COMERCIAL
+====================================================
+Si quieres vender Restaurant CRM a restaurantes reales, considera:
+
+1. PRECIOS Y PLANES
+   - Añadir sección "Precios" con planes (Básico / Profesional / Empresa)
+   - Incluir precio mensual, límite de restaurantes/leads, y características
+   - Destacar "Prueba gratis 14 días" o "Demo sin compromiso"
+
+2. TESTIMONIALES / SOCIAL PROOF
+   - Incluir 2-3 testimonios de restaurantes (aunque sean beta o piloto)
+   - Logos de restaurantes que usen el sistema
+   - Frase tipo: "Ya confían en nosotros: [logo] [logo] [logo]"
+
+3. CAPTURA DE LEADS
+   - Formulario "Solicitar Demo" o "Contacto" con nombre, email, teléfono
+   - Integración con Email (SMTP) o servicio tipo Formspree / Netlify Forms
+   - Opción de enlace a Calendly para agendar demostración
+
+4. FAQ
+   - Preguntas frecuentes: precio, implementación, soporte, seguridad
+   - Reduce objeciones y aumenta credibilidad
+
+5. COMPARATIVA
+   - Tabla "Restaurant CRM vs Excel / WhatsApp / nada"
+   - Resaltar ventajas en tiempo, errores, profesionalismo
+
+6. CASOS DE USO O RECURSOS
+   - Blog, guías o artículos tipo "5 errores que cometen los restaurantes al gestionar menús"
+   - Posiciona como experto y genera tráfico orgánico
+
+7. LLAMADAS A LA ACCIÓN MÁS ESPECÍFICAS
+   - "Agendar demo" en vez de solo "Demo"
+   - "Comenzar prueba gratis" con enlace directo al registro
+
+8. CHAT / WHATSAPP
+   - Botón flotante de WhatsApp para contacto directo
+   - Muchos restaurantes prefieren iniciar contacto por WhatsApp
+
+9. CERTIFICACIONES Y SEGURIDAD
+   - Si aplica: SSL, cumplimiento de datos, backups
+   - Transmite confianza para negocios que manejan datos sensibles
+
+10. VERSIÓN EN OTROS IDIOMAS
+    - Si tu mercado es internacional: inglés, portugués
+    - Aumenta alcance sin cambiar el producto
+-->
+</body>
+</html>

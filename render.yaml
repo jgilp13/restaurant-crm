@@ -1,0 +1,16 @@
+# Render - Restaurant CRM
+# 1. Crear MySQL Database en Render Dashboard
+# 2. Crear Web Service desde este repo (Docker)
+# 3. Añadir env vars: DB_HOST, DB_NAME, DB_USER, DB_PASS (desde la BD de Render)
+
+services:
+  - type: web
+    name: restaurant-crm
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      # DB_HOST, DB_NAME, DB_USER, DB_PASS: configurar en Dashboard (desde MySQL)

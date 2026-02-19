@@ -1,14 +1,14 @@
 <div class="row mb-4">
     <div class="col-md-8">
         <h1>
-            <i class="fas fa-utensils"></i> Menú
+            <i class="bi bi-utensils"></i> Menú
             <small class="text-muted"><?= \App\Core\View::escape($restaurant['name']) ?></small>
         </h1>
         <small class="text-muted">Total: <?= $total ?? 0 ?> platillos</small>
     </div>
     <div class="col-md-4 text-md-end">
         <a href="<?= \App\Core\View::url('/menu/' . $restaurant['id'] . '/create') ?>" class="btn btn-primary btn-lg">
-            <i class="fas fa-plus"></i> Nuevo Platillo
+            <i class="bi bi-plus-lg"></i> Nuevo Platillo
         </a>
     </div>
 </div>
@@ -66,12 +66,12 @@
                             <td>
                                 <div class="btn-group btn-group-sm" role="group">
                                     <a href="<?= \App\Core\View::url('/menu/' . $restaurant['id'] . '/edit/' . $item['id']) ?>" class="btn btn-warning">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="bi bi-pencil"></i>
                                     </a>
                                     <form method="POST" action="<?= \App\Core\View::url('/menu/' . $restaurant['id'] . '/delete/' . $item['id']) ?>" style="display:inline;">
                                         <?= \App\Core\Csrf::input() ?>
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar platillo?')">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -83,7 +83,7 @@
                         <td colspan="5" class="text-center py-4">
                             <p class="text-muted mb-2">No hay platillos en este menú</p>
                             <a href="<?= \App\Core\View::url('/menu/' . $restaurant['id'] . '/create') ?>" class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus"></i> Agregar platillo
+                                <i class="bi bi-plus-lg"></i> Agregar platillo
                             </a>
                         </td>
                     </tr>
@@ -97,7 +97,7 @@
                 <ul class="pagination justify-content-center">
                     <?php if ($page > 1): ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=1<?= !empty($currentCategory) ? '&category=' . $currentCategory : '' ?>"><i class="fas fa-step-backward"></i></a>
+                            <a class="page-link" href="?page=1<?= !empty($currentCategory) ? '&category=' . $currentCategory : '' ?>"><i class="bi bi-chevron-double-left"></i></a>
                         </li>
                     <?php endif; ?>
 
@@ -109,7 +109,7 @@
 
                     <?php if ($page < $totalPages): ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $totalPages ?><?= !empty($currentCategory) ? '&category=' . $currentCategory : '' ?>"><i class="fas fa-step-forward"></i></a>
+                            <a class="page-link" href="?page=<?= $totalPages ?><?= !empty($currentCategory) ? '&category=' . $currentCategory : '' ?>"><i class="bi bi-chevron-double-right"></i></a>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -120,6 +120,6 @@
 
 <div class="mt-3">
     <a href="<?= \App\Core\View::url('/restaurants') ?>" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Volver a Restaurantes
+        <i class="bi bi-arrow-left"></i> Volver a Restaurantes
     </a>
 </div>
