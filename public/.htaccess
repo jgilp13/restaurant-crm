@@ -2,16 +2,15 @@
     RewriteEngine On
     RewriteBase /
     
-    # No reescribir archivos y directorios existentes
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
-    
-    # NO reescribir si ya pasó por un rewrite (CRÍTICO para evitar loop)
-    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    # No reescribir si es un archivo real
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # No reescribir si es un directorio real
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # 🔴 CRÍTICO: No reescribir si ALREADY ES index.php (evita loop)
+    RewriteCond %{REQUEST_FILENAME} !index\.php$
     
     # Front controller: todo a index.php
-    RewriteRule ^(.*)$ index.php [QSA,L]
+    RewriteRule ^(.*)$ index.php?_route=$1 [QSA,L]
 </IfModule>
 
 # ========================================================================
