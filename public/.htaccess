@@ -1,27 +1,3 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
-    
-    # No reescribir si es un archivo real
-    RewriteCond %{REQUEST_FILENAME} !-f
-    # No reescribir si es un directorio real
-    RewriteCond %{REQUEST_FILENAME} !-d
-    # 🔴 CRÍTICO: No reescribir si ALREADY ES index.php (evita loop)
-    RewriteCond %{REQUEST_FILENAME} !index\.php$
-    
-    # Front controller: todo a index.php
-    RewriteRule ^(.*)$ index.php?_route=$1 [QSA,L]
-</IfModule>
+# .htaccess disabled - using Apache VirtualHost configuration instead
+# All rewrite rules are in /etc/apache2/conf-available/app.conf
 
-# ========================================================================
-# Seguridad: Bloquear acceso a archivos sensibles
-# ========================================================================
-<FilesMatch "\.(env|md|sql|json|yaml)$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
-
-# Bloquear acceso a directorios de aplicación
-<IfModule mod_rewrite.c>
-    RewriteRule ^(app|database|vendor)/ - [F,L]
-</IfModule>

@@ -23,26 +23,59 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 # ==============================================================
 
 # Crear archivo de configuración Apache mejorado
-RUN cat > /etc/apache2/conf-available/app.conf << 'EOF'
+RUN cat > /etc/apache2/sites-available/app.conf << 'EOF'
 # Aumentar límite de internal redirects para MVC/front controller
 LimitInternalRecursion 50 50
 
-<Directory /var/www/html/public>
-    Options -MultiViews -Indexes +FollowSymLinks
-    AllowOverride All
-    Require all granted
+# VirtualHost para la aplicación
+<VirtualHost *:8080>
+    ServerName localhost
+    DocumentRoot /var/www/html/public
     
-    # HTTPS detection desde Render reverse proxy
-    SetEnvIf X-Forwarded-Proto https HTTPS=on
-</Directory>
+    # Logging
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+    
+    # Deshabilitar .htaccess processing (usar config aquí)
+    <Directory /var/www/html/public>
+        Options -MultiViews -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+        
+        # HTTPS detection desde Render reverse proxy
+        SetEnvIf X-Forwarded-Proto https HTTPS=on
+        
+        # Rewrite rules (copiar del .htaccess pero aquí)
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteBase /
+            
+            # No reescribir si es un archivo o directorio REAL
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+            
+            # Reescribir TODO a index.php (front controller)
+            RewriteRule ^(.*)$ /index.php [QSA,L]
+        </IfModule>
+    </Directory>
+    
+    <Directory /var/www/html>
+        AllowOverride None
+        Require all denied
+    </Directory>
+    
+    # Bloquear acceso a directorios sensibles
+    <DirectoryMatch "^/var/www/html/(app|database|vendor|\.env)">
+        Require all denied
+    </DirectoryMatch>
+</VirtualHost>
 EOF
 
-# 1. DocumentRoot apunta a /public
-RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
-    /etc/apache2/sites-available/000-default.conf
+# Deshabilitar el sitio default que conflictúa
+RUN a2dissite 000-default
 
-# 2. Habilitar la configuración personalizada
-RUN a2enconf app
+# Habilitar nuestro sitio personalizado
+RUN a2ensite app
 
 # 3. Permisos de escritura para logs
 RUN chown -R www-data:www-data /var/www/html && \
