@@ -2,6 +2,7 @@ FROM php:8.2-apache
 
 # Extensiones necesarias
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
     && docker-php-ext-install pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
 
@@ -23,6 +24,9 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Crear archivo de configuración Apache mejorado
 RUN cat > /etc/apache2/conf-available/app.conf << 'EOF'
+# Aumentar límite de internal redirects para MVC/front controller
+LimitInternalRecursion 50 50
+
 <Directory /var/www/html/public>
     Options -MultiViews -Indexes +FollowSymLinks
     AllowOverride All
