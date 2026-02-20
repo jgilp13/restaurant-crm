@@ -4,6 +4,10 @@
  * Punto de entrada único para toda la aplicación
  */
 
+// 🔴 CRÍTICO: Charset UTF-8 (debe ser lo primero antes que todo)
+header('Content-Type: text/html; charset=utf-8');
+ini_set('default_charset', 'utf-8');
+
 // Configuración de errores
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
