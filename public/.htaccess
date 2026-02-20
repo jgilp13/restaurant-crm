@@ -10,12 +10,7 @@
     RewriteCond %{REQUEST_URI} !/index.php
     
     # Reescribir todas las solicitudes a index.php (front controller)
-<<<<<<< HEAD
     RewriteRule ^(.*)$ /index.php [QSA,L]
-=======
-    RewriteRule ^(.+)$ /index.php [QSA,L]
-    RewriteRule ^$ index.php [QSA,L]
->>>>>>> 91e527fd07ebc28b51a0b3ed35c0e290341f525b
 </IfModule>
 
 # ========================================================================
