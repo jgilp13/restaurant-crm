@@ -1,0 +1,24 @@
+# ========================================================================
+# .htaccess para RAÍZ DEL PROYECTO (solo para desarrollo local)
+# 
+# En producción (Render), DocumentRoot es /public, NO uses este archivo.
+# En desarrollo local con estructura: /restaurant-crm/public/index.php
+# 
+# Reemplaza la RewriteBase según tu configuración:
+# - Si accedes en localhost/restaurant-crm → RewriteBase /restaurant-crm/
+# - Si accedes en localhost/crm → RewriteBase /crm/
+# ========================================================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # 🔴 EDITA ESTO SEGÚN TU SETUP LOCAL
+    # RewriteBase /restaurant-crm/   ← Cambiar según URL local
+    
+    # No rewrite para archivos y carpetas reales
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Redirige a public/index.php (front controller)
+    RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
+</IfModule>

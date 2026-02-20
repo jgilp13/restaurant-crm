@@ -1,11 +1,15 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /restaurant-crm/
+    # RewriteBase se establece automáticamente (es /)
     
     # No rewrite para archivos y carpetas reales
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     
-    # Redirige todo a public/index.php
-    RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
+    # Redirige todo a index.php (front controller)
+    # Notas:
+    # - En producción (Render), DocumentRoot es /public, así que index.php está en raíz
+    # - En desarrollo local, ajusta RewriteBase según tu estructura
+    RewriteRule ^(.+)$ /index.php [QSA,L]
+    RewriteRule ^$ index.php [QSA,L]
 </IfModule>
