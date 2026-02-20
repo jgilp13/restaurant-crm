@@ -1,10 +1,14 @@
 FROM php:8.2-apache
 
 # Extensiones necesarias
-RUN docker-php-ext-install pdo pdo_mysql
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    && docker-php-ext-install pdo pdo_mysql \
+    && rm -rf /var/lib/apt/lists/*
 
-# Habilitar mod_rewrite para .htaccess
+# Habilitar módulos Apache necesarios
 RUN a2enmod rewrite
+RUN a2enmod headers
+RUN a2enmod remoteip
 
 # Copiar código
 COPY . /var/www/html
@@ -13,18 +17,48 @@ COPY . /var/www/html
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# DocumentRoot = /public
-RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+# ==============================================================
+# CONFIGURACIÓN CRÍTICA PARA RENDER
+# ==============================================================
 
-# Permitir .htaccess en todo el docroot
-RUN sed -ri -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+# Crear archivo de configuración Apache mejorado
+RUN cat > /etc/apache2/conf-available/app.conf << 'EOF'
+<Directory /var/www/html/public>
+    Options -MultiViews -Indexes +FollowSymLinks
+    AllowOverride All
+    Require all granted
+    
+    # HTTPS detection desde Render reverse proxy
+    SetEnvIf X-Forwarded-Proto https HTTPS=on
+</Directory>
+EOF
 
-# Variables de entorno por defecto (Render las puede sobrescribir)
+# 1. DocumentRoot apunta a /public
+RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
+    /etc/apache2/sites-available/000-default.conf
+
+# 2. Habilitar la configuración personalizada
+RUN a2enconf app
+
+# 3. Permisos de escritura para logs
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html && \
+    find /var/www/html -type f -exec chmod 644 {} \;
+
+# Variables de entorno por defecto  
 ENV APP_ENV=production
 ENV APP_DEBUG=false
+ENV DB_PORT=3306
 
-WORKDIR /var/www/html/public
+# Puerto que escucha
+EXPOSE 8080
 
-EXPOSE 80
+# Cambiar puerto para Render (que usa 8080 por defecto)
+RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf
+
+# Health check (simple)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:8080/ || exit 1
 
 ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["apache2-foreground"]

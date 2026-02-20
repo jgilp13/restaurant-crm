@@ -6,7 +6,22 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     # No reescribir directorios existentes
     RewriteCond %{REQUEST_FILENAME} !-d
+    # 🔴 CRÍTICO: No reescribir si ya es index.php (evita loop infinito)
+    RewriteCond %{REQUEST_URI} !/index.php
     
-    # Reescribir todas las solicitudes a index.php
-    RewriteRule ^(.*)$ index.php [L]
+    # Reescribir todas las solicitudes a index.php (front controller)
+    RewriteRule ^(.*)$ /index.php [QSA,L]
+</IfModule>
+
+# ========================================================================
+# Seguridad: Bloquear acceso a archivos sensibles
+# ========================================================================
+<FilesMatch "\.(env|md|sql|json|yaml)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear acceso a directorios de aplicación
+<IfModule mod_rewrite.c>
+    RewriteRule ^(app|database|vendor)/ - [F,L]
 </IfModule>
