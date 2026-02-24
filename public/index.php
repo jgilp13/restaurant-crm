@@ -92,6 +92,12 @@ $url = parse_url($requestUri, PHP_URL_PATH) ?? '/';
 // Asegurar formato correcto de URL
 $url = '/' . trim($url, '/');
 
+// Redirigir el dominio raíz a la landing de demo
+if ($url === '/') {
+    header('Location: /landing.html', true, 302);
+    exit;
+}
+
 // Ejecutar aplicación
 $router->handle($url);
 ?>
